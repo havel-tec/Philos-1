@@ -162,8 +162,6 @@ $nav_menu_pagina = 'qaa';
 					<div class="col-md-12">
 						<?php
 
-
-
 						$selecao1 = mysqli_query($conexao, "select * from cadastro WHERE id='$codigo_qaa'");
 						$registros1 = mysqli_fetch_array($selecao1);
 						$cnpj = $registros1['cnpj'];
