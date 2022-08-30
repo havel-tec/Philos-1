@@ -121,7 +121,6 @@ $nav_menu_pagina = 'qaa';
 						if ($numero_grupo >= 1) {
 						?>
 
-
 							<a data-toggle="modal" data-target="#NovoBloco" style="cursor: pointer"> <img src="imgs/icone-mais.png" width="25" height="25" alt="" /> Novo Bloco</a>
 						<?php } ?>
 
