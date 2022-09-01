@@ -113,7 +113,7 @@ if ($registros['pergunta_sim_nao'] != '') {
 
 
 <label class="mt-3">Resposta<font style="color: red">(Em caso de colar textos de outras ferramentas utilize <strong>shift+control+v</strong> para colar</font>)</label>
-<textarea class="form-control" id="editor1" value="<?php echo $registros_respostas['resposta']; ?>"><?php echo $registros_resposta['resposta'] ?></textarea>
+<textarea class="form-control" id="editor1" value="<?php echo $registros_respostas['resposta']; ?><?php echo $registros_resposta['versao'];  ?><?php echo $registros_respostas['codigo_qaa'];  ?>"><?php print($registros_respostas['resposta']); ?></textarea>
 
 
 
@@ -195,6 +195,8 @@ if ($numero_grupo == 1) {
 	<input type="button" value="atualizar" class="btn btn-primary mt-1" onClick="AtualizarQAA('atualizada')">
 
 	<input type="button" value="salvar" class="btn btn-success mt-1" onClick="AtualizarQAA('salvar')">
+
+
 
 <?php } ?>
 <!-- Modal -->

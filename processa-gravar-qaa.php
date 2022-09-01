@@ -43,22 +43,27 @@ if ($versao == '') {
 
 if ($retorno == 'salvar') {
 
-	$salvar = mysqli_query($conexao, "insert into questoes_qaa 
+	$salvar = mysqli_query($conexao, "update questoes_qaa 
 set  questao='$questao', resposta='$resposta', resposta_sim_nao='$respostasimnao', possui_nao_possui='$possui', pergunta_sim_nao='$pergunta', salvar='1'   WHERE cod='$codigo' and versao='$versao' and certificado='$certificado'   ");
 
 
-	$atualizar = mysqli_query($conexao, "insert into resposta_qaa set salvar='1' WHERE codigo_questao='$codigo'");
+	$atualizar = mysqli_query($conexao, "update resposta_qaa set salvar='1' WHERE codigo_questao='$codigo'");
 
 
 	if ($salvar) { ?>
 
 		<div class="alert alert-success alert-dismissible fade show" role="alert">
-			Questão <?php echo $retorno ?> com sucesso!!
+			Questão <?php echo $retorno ?>SALVA1 com sucesso!!
 
-			<script>
-				alert('Caiu aqui - salvar')
-			</script>
 
+		</div>
+	<?php }
+
+
+	if ($update) { ?>
+
+		<div class="alert alert-success alert-dismissible fade show" role="alert">
+			Questão <?php echo $retorno ?> SALVA2 com sucesso!!
 
 		</div>
 
@@ -66,7 +71,7 @@ set  questao='$questao', resposta='$resposta', resposta_sim_nao='$respostasimnao
 } else {
 
 
-	$atualizar = mysqli_query($conexao, "insert into  questoes_qaa 
+	$atualizar = mysqli_query($conexao, "insert into questoes_qaa 
 set  questao='$questao', resposta='$resposta', resposta_sim_nao='$respostasimnao', possui_nao_possui='$possui', pergunta_sim_nao='$pergunta'  WHERE id='$codigo' and versao='$versao'  and certificado='$certificado'  ");
 
 	$pesq = mysqli_query($conexao, "select * from resposta_qaa WHERE codigo_questao='$codigo' and cnpj='$cnpj'");
@@ -75,7 +80,7 @@ set  questao='$questao', resposta='$resposta', resposta_sim_nao='$respostasimnao
 
 	if ($num == 0) {
 
-		$inserir = mysqli_query($conexao, "insert into resposta_qaa(codigo_questao,resposta,certificado,cnpj,codigo_modalidade,salvar)values('$codigo','$resposta','$certificado','$cnpj','$modalidade','1')");
+		$inserir = mysqli_query($conexao, "insert into questoes_qaa(codigo_questao,resposta,certificado,cnpj,codigo_modalidade,salvar)values('$codigo','$resposta','$certificado','$cnpj','$modalidade','1')");
 
 
 		if ($inserir) { ?>
@@ -83,17 +88,15 @@ set  questao='$questao', resposta='$resposta', resposta_sim_nao='$respostasimnao
 			<div class="alert alert-success alert-dismissible fade show" role="alert">
 				Questão <?php echo $retorno ?> com sucesso!!
 
-				<script>
-					alert('Caiu aqui - atualizar e salvar')
-				</script>
 			</div>
 
 		<?php } ?>
+
 	<?php	}
 
 
 	if ($num == 1) {
-		$update = mysqli_query($conexao, "insert into resposta_qaa set resposta='$resposta' WHERE codigo_questao='$codigo' and cnpj='$cnpj' and codigo_modalidade='$modalidade' ");
+		$update = mysqli_query($conexao, "update questoes_qaa set resposta='$resposta' WHERE codigo_questao='$codigo' and cnpj='$cnpj' and codigo_modalidade='$modalidade' ");
 	}
 
 	if ($update) { ?>

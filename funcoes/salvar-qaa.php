@@ -1,5 +1,7 @@
 <?php
 session_start();
+// unset($_SESSION['check']);
+
 $obterdominio = $_SESSION['dominio'];
 include('../' . $obterdominio . '/' . 'conexao.php');
 
@@ -50,47 +52,47 @@ while ($registros_geral = mysqli_fetch_array($selecao_geral)) {
 	$id = $registros_geral['id'];
 
 
-	$inserir = mysqli_query($conexao, "insert into questoes_qaa(
-questao_principal,
-questao,
-resposta,
-titulo,
-codigo_bloco,
-anexo,
-nome_anexo,
-pergunta_sim_nao,
-resposta_sim_nao,
-tipo,
-possui_nao_possui,
-versao,
-cod,
-salvar,
-certificado,
-codigo_anterior
+	// 	$inserir = mysqli_query($conexao, "insert into questoes_qaa(
+	// questao_principal,
+	// questao,
+	// resposta,
+	// titulo,
+	// codigo_bloco,
+	// anexo,
+	// nome_anexo,
+	// pergunta_sim_nao,
+	// resposta_sim_nao,
+	// tipo,
+	// possui_nao_possui,
+	// versao,
+	// cod,
+	// salvar,
+	// certificado,
+	// codigo_anterior
 
-)values(
-'$questao_principal',
-'$questao',
-'$resposta',
-'$titulo',
-'$codigo_bloco',
-'$anexo',
-'$nome_anexo',
-'$pergunta_sim_nao',
-'$resposta_sim_nao',
-'$tipo',
-'$possui_nao_possui',
-'$versao',
-'$numero',
-'$cod',
-'1',
-'$certificado',
-'$codigo_anterior'
-'$id'
-) ");
+	// )values(
+	// '$questao_principal',
+	// '$questao',
+	// '$resposta',
+	// '$titulo',
+	// '$codigo_bloco',
+	// '$anexo',
+	// '$nome_anexo',
+	// '$pergunta_sim_nao',
+	// '$resposta_sim_nao',
+	// '$tipo',
+	// '$possui_nao_possui',
+	// '$numero',
+	// '$cod',
+	// '1',
+	// '$certificado',
+	// '$codigo_anterior'
+	// '$id'
+	// ) ");
 }
 if ($inserir) {
 
 	$gravar = mysqli_query($conexao, "insert into status_qaas(codigo_qaa,data,hora,usuario,versao,certificado,cnpj)values('$codigo_qaa','$data','$hora','$usuario','$numero','$certificado','$cnpj') ");
 } else {
+	print("Versão não pode ser gravada");
 }

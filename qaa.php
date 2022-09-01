@@ -1,4 +1,5 @@
 <?php
+session_start();
 $nav_menu_principal = 'riskassesment';
 $nav_menu_pagina = 'qaa';
 @$mod = $_REQUEST['mod'];
@@ -21,8 +22,12 @@ $nav_menu_pagina = 'qaa';
 
 <style>
 	.icone-geral {
-		display: none
+		display: none;
+		color: green;
+		float: left;
 	}
+
+
 
 	.desativar {
 		display: none;
@@ -90,8 +95,8 @@ $nav_menu_pagina = 'qaa';
 	@$codigo_qaa = $_REQUEST['cod'];
 	?>
 	<!-- Navegação !-->
-	<input type="hidden" id="codigo-qaa" value="<?php echo $codigo_qaa ?>">
-	<form action="processa-gravar-qaa.php" method="post">
+	<input type="hidden" id="codigo-qaa" value="<?php echo $codigo_qaa ?>" />
+	<form action="processa-atualizar-qaa.php" method="post">
 		<div class="content-wrapper" style="overflow: hidden">
 			<div class="container-fluid">
 				<div class="row mb-5" style="margin-top: -16px; ">
@@ -384,6 +389,7 @@ $nav_menu_pagina = 'qaa';
 
 													<?php
 													$selecao3 = mysqli_query($conexao, "select * from questoes_qaa WHERE questao_principal='$codigo_questao' and codigo_bloco='$codigo_bloco' and versao='$versao' ");
+
 													while ($registros3 = mysqli_fetch_array($selecao3)) {
 
 														$codigo_id = $registros3['id'];
@@ -394,31 +400,15 @@ $nav_menu_pagina = 'qaa';
 
 															<!----- Aqui colocar Tick ao salvar ---->
 
-
 															<?php
-															$selecao44 = mysqli_query($conexao, "select * from resposta_qaa WHERE salvar='$salvar'  ");
+															$selecao44 = mysqli_query($conexao, "select * from resposta_qaa where salvar='$salvar'");
 															$registros44 = mysqli_fetch_array($selecao44);
 															?>
 
-															<?php
-															if ($registros44['salvar'] == '1') { ?>
-																<style>
-																	#codigo2-77 {
-																		display: none
-																	}
-																</style>
-																<i class="fa fa-check" style="color: green; float:left" id="codigo-<?php echo $codigo_questao ?>"></i> &nbsp;
+															<i class="fa fa-check icone-geral" id="codigo2-<?php echo $codigo_id ?>" <?php print $_SESSION['check']; ?>></i> &nbsp;
 
-															<?php } else { ?>
-																<i class="fa fa-check icone-geral" style="color: green; float:left" id="codigo2-<?php echo $codigo_id ?>"></i> &nbsp;
+															<a class="text-dark pointer" onClick="ClicarQuestao(<?php echo $registros3['id'] ?>)"><?php echo $registros3['titulo'] ?><?php echo $registros3['resposta'] ?></a>
 
-
-															<?php	}
-
-															?>
-
-
-															<a class="text-dark pointer" onClick="ClicarQuestao(<?php echo $registros3['id'] ?>)"><?php echo $registros3['titulo'] ?></a>
 
 															<?php
 															$verificar_grupo = mysqli_query($conexao, "select * from grupos_permissoes WHERE codigo_menu='10' and codigo_grupo='$cod_grupo' and excluir='1' ");
@@ -450,15 +440,8 @@ $nav_menu_pagina = 'qaa';
 								</div>
 
 
-
-
-
 							<?php $a = $a + 1;
 							} ?>
-
-
-
-
 
 
 							<!-----------Final Main Menu ---------------->
@@ -466,6 +449,7 @@ $nav_menu_pagina = 'qaa';
 
 
 							<input type="button" value="Gravar QAA" class="btn btn-success mt-5" onClick="GravarQaa()">
+
 
 
 							<div id="resposta-qaa"></div>
@@ -512,7 +496,7 @@ $nav_menu_pagina = 'qaa';
 											<p style="font-size: 20px; "> <i class="fa fa-print"></i></p>
 										</a>
 
-									<th><a onClick="DelVersao(<?php echo $registros_versao['versao'] ?>)"><i class="fa fa-trash"></i></a></th>
+									<th><a onClick="DelVersao(<?php echo $registros_versao['certificado'] ?>)"><i class="fa fa-trash"></i></a></th>
 								</tr>
 
 							<?php } ?>
@@ -623,7 +607,7 @@ $nav_menu_pagina = 'qaa';
 
 
 
-		<!-- Modal -->
+		<!-- Modal Responsaveis-->
 		<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="z-index: 999999999">
 			<div class="modal-dialog modal-dialog-centered" role="document" style="z-index: 999999999">
 				<div class="modal-content">
@@ -689,7 +673,7 @@ $nav_menu_pagina = 'qaa';
 
 
 
-		<!-- Modal Editar Bloco -->
+		<!-- Modal Editar Critério -->
 		<div class="modal fade" id="EditarCriterio" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 999999; ">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
@@ -716,7 +700,7 @@ $nav_menu_pagina = 'qaa';
 		</div>
 
 
-		<!-- Modal Editar Bloco -->
+		<!-- Modal Editar Subcritério -->
 		<div class="modal fade" id="EditarSubCriterio" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 999999; ">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
@@ -849,7 +833,7 @@ $nav_menu_pagina = 'qaa';
 				}
 			}
 
-			function DelVersao(versao) {
+			function DelVersao(certificado) {
 
 				if (window.confirm("Você realmente excluir essa Versão?")) {
 
@@ -858,7 +842,7 @@ $nav_menu_pagina = 'qaa';
 
 					$var.ajax({
 						type: 'post',
-						data: 'versao=' + versao,
+						data: 'certificado=' + certificado,
 						url: 'funcoes/excluir-versao-qaa.php',
 						success: function(retorno) {
 
@@ -972,10 +956,8 @@ $nav_menu_pagina = 'qaa';
 			function AtualizarQAA(retorno) {
 				var codigo = $var('#quest-codigo').val()
 				var questao = $var('#quest-questao').val()
-
 				var resposta = $var('#quest-resposta').val()
 				var cnpj = $var('#cad-cnpj').val()
-
 				var mod = $var('#cad-mod').val()
 
 
@@ -984,9 +966,7 @@ $nav_menu_pagina = 'qaa';
 				var possui = $var("#cad-documentos option:selected").val()
 
 				var data = CKEDITOR.instances.editor1.getData();
-
 				var data2 = data.replace('&nbsp;', ' ')
-
 				var pergunta = $var('#cad-pergunta').val()
 
 				$var.ajax({
@@ -1217,20 +1197,31 @@ $nav_menu_pagina = 'qaa';
 
 
 
-			function GravarQaa() {
+			function GravarQaa(variavel) {
+				var resposta = $var('#cad-resposta').val()
+
+				if (variavel == 'resposta') {
+					alert('funcionou')
+				} else {
 
 
-				$g.ajax({
-					type: 'post',
-					data: 'codigo=<?php echo $codigo_qaa ?>&usuario=<?php echo $user_email ?>&cnpj=<?php echo $cnpj ?>&certificado=<?php echo $certificado ?>',
-					url: 'funcoes/salvar-qaa.php',
-					success: function(retorno) {
+					$g.ajax({
+						type: 'post',
+						data: 'codigo=<?php echo $codigo_qaa ?>&usuario=<?php echo $user_email ?>&cnpj=<?php echo $cnpj ?>&certificado=<?php echo $certificado ?>',
+						url: 'funcoes/salvar-qaa.php',
+						success: function(retorno) {
 
-						location.reload()
-					}
-				})
+
+							location.reload()
+
+						}
+					})
+
+				}
 
 			}
+
+
 
 
 			$ba = jQuery.noConflict()
@@ -1431,7 +1422,7 @@ $nav_menu_pagina = 'qaa';
 			}
 			AtivarLink()
 		</script>
-
+	</form>
 
 </body>
 
