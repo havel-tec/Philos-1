@@ -28,7 +28,6 @@ $nav_menu_pagina = 'qaa';
 	}
 
 
-
 	.desativar {
 		display: none;
 	}
