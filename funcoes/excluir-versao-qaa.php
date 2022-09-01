@@ -10,6 +10,7 @@ $versao = $_POST['versao'];
 $excluir = mysqli_query($conexao, "delete from status_qaas WHERE certificado='$versao'");
 
 
+
 if ($excluir) {
 
     $deletar = mysqli_query($conexao, "delete from questoes_qaa WHERE certificado='$versao'");
